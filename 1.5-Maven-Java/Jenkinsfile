@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    stages {
+        
+         stage('Quality Scan') {
+            steps {
+               
+            sh "mvn -Dmaven.test.failure.ignore=true clean compile"
+               
+            sh 'mvn sonar:sonar -Dsonar.host.url=http://ec2-3-128-181-147.us-east-2.compute.amazonaws.com:9005 -Dsonar.login=0a0f3d64c353496711042451cfe566a3a972862c'
+
+               
+            }
+
+            
+        }
+        
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/saurabhd2106/maven-java-sample-app.git'
+
+                // Run Maven on a Unix agent.
+                sh "mvn -Dmaven.test.failure.ignore=true package"
+
+                // To run Maven on a Windows agent, use
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+            
+             post {
+                always {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                }
+                success {
+                    
+                    archiveArtifacts 'target/*.jar'
+                }
+            }
+            
+        }
+        
+       
+    }
+}
