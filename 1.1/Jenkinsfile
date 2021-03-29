@@ -11,7 +11,7 @@ pipeline {
             
             echo "This is my first Jenkins Pipeline with $BUILD_NUMBER and $DEMO"
 
-            powershell "echo \"This is my first Jenkins Pipeline with $BUILD_NUMBER and $DEMO\""
+            sh "echo \"This is my first Jenkins Pipeline with $BUILD_NUMBER and $DEMO\""
             
          }
       }
