@@ -49,4 +49,4 @@ pipeline {
              echo 'Prints whether deploy happened or not, success or failure'
         }
     }
-}vv
+}
